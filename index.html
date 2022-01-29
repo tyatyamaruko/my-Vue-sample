@@ -1,17 +1,75 @@
 <!DOCTYPE html>
 <html lang="Vue">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
     <title>sample code</title>
-</head>
-<body>
+    <style>
+      .isShow {
+        display: none;
+      }
+
+      .result {
+        position: relative;
+        margin: 10px auto;
+      }
+      .result .res {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+      }
+      .trans-enter-active,
+      .trans-leave-active {
+        transition: all 0.5s;
+      }
+      .trans-enter-to,
+      .trans-leave {
+        opacity: 1;
+      }
+      .trans-enter {
+        opacity: 0;
+        transform: translate(-50%, 10px) !important;
+      }
+      .trans-leave-to {
+        opacity: 0;
+        transform: translate(-50%, -10px) !important;
+      }
+    </style>
+  </head>
+  <body>
     <div id="app">
-        <title-view title="Vue Sample Code"></title-view>
-    </div><!-- /#app -->
+      <button @click="showToggle">{{ isShow }}</button>
+      <title-view
+        title="Vue Sample Code"
+        :class=" { isShow: isShow }"
+      ></title-view>
+      <form-view placeholderText="なにか入力して下さい"></form-view>
+    </div>
+    <!-- /#app -->
+
+    <div id="demo">
+      <p class="title">zipcode to address demo</p>
+      <!-- /.title -->
+      <input
+        type="text"
+        v-model="inputZip"
+        :placeholder="computedZip"
+        @key-press.enter="getAddress(computedZip)"
+        maxlength="7"
+      /><button @click="getAddress(computedZip)">boom</button>
+      <div class="result">
+        <transition name="trans">
+          <p class="res" :key="results">入力：{{ results }}</p>
+        </transition>
+      </div>
+      <!-- /.result -->
+    </div>
+    <!-- /#demo -->
 
     <script src="./js/script.js"></script>
-</body>
+  </body>
 </html>
